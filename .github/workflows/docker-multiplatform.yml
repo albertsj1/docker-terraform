@@ -52,7 +52,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
 
       - name: Attest
-        uses: actions/attest-build-providence@v2
+        uses: actions/attest-build-provenance@v2
         id: attest
         with:
           subject-name: albertsj1/terraform
