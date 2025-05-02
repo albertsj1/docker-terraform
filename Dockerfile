@@ -5,8 +5,14 @@ ARG TARGETARCH
 
 LABEL Name=terraform Version=${TERRAFORM_VERSION} Description="Run Terraform in a container for your CI jobs"
 
+# Update everything
+RUN apk update && apk upgrade
+
 # Install dependencies
-RUN apk add --no-cache curl unzip bash git jq
+RUN apk add curl unzip bash git jq
+
+# Clean up
+RUN apk cache clean && rm -rf /var/cache/apk/*
 
 # Install Terraform
 RUN curl -fsSL https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_${TARGETARCH}.zip -o terraform.zip && \
