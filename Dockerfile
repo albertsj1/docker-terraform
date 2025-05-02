@@ -4,6 +4,13 @@ ENV TERRAFORM_VERSION=${TERRAFORM_VERSION}
 ARG TARGETARCH
 
 LABEL Name=terraform Version=${TERRAFORM_VERSION} Description="Run Terraform in a container for your CI jobs"
+LABEL org.opencontainers.image.description "Run Terraform in a container for your CI jobs"
+LABEL org.opencontainers.image.title "Terraform"
+LABEL org.opencontainers.image.version ${TERRAFORM_VERSION}
+LABEL org.opencontainers.image.licenses "MIT"
+LABEL org.opencontainers.image.source "https://github.com/albertsj1/docker-terraform"
+LABEL org.opencontainers.image.url "https://github.com/albertsj1/docker-terraform"
+
 
 # Update everything
 RUN apk update && apk upgrade
