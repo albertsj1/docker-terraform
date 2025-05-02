@@ -51,12 +51,13 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           platforms: linux/amd64,linux/arm64
+          sbom: true
 
       - name: Attest
         uses: actions/attest-build-provenance@v2
         id: attest
         with:
-          subject-name: albertsj1/terraform
+          subject-name: index.docker.io/albertsj1/terraform
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true
           
