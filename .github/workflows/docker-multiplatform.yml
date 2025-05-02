@@ -47,7 +47,7 @@ jobs:
             type=raw,value=latest,enable={{is_default_branch}}
             # set branch tag for default branch
             type=raw,value={{github.ref}},enable={{is_default_branch}}
-            type=semver,pattern=${{env.TF_VERSION}}
+            type=semver,pattern={{version}},value=${{env.TF_VERSION}}
 
       - name: Build and push Docker image (multi-platform)
         id: push
