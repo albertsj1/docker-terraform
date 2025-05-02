@@ -25,6 +25,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Login to DockerHub
         uses: docker/login-action@v3
         with:
@@ -41,7 +48,9 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: albertsj1/terraform
+          images: |
+            albertsj1/terraform
+            ghcr.io/albertsj1/terraform
           tags: |
             # set latest tag for default branch
             type=raw,value=latest,enable={{is_default_branch}}
@@ -67,7 +76,7 @@ jobs:
         uses: actions/attest-build-provenance@v2
         id: attest
         with:
-          subject-name: index.docker.io/albertsj1/terraform
+          subject-name: ghcr.io/albertsj1/terraform
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true
           
