@@ -16,6 +16,12 @@ jobs:
       attestations: write
 
     steps:
+      - name: Get Latest TF Version
+        run: |
+          TF_VERSION=$(curl -s https://api.github.com/repos/hashicorp/terraform/releases/latest | jq -r .tag_name | tr -d 'v')
+          echo "TF_VERSION=$TF_VERSION" >> $GITHUB_ENV
+        shell: bash
+        
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -41,6 +47,7 @@ jobs:
             type=raw,value=latest,enable={{is_default_branch}}
             # set branch tag for default branch
             type=raw,value={{github.ref}},enable={{is_default_branch}}
+            type=env,value=TF_VERSION
 
       - name: Build and push Docker image (multi-platform)
         id: push
@@ -52,6 +59,9 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           platforms: linux/amd64,linux/arm64
           sbom: true
+          provenance: true
+          build-args: |
+            TF_VERSION=${{ env.TF_VERSION }}
 
       - name: Attest
         uses: actions/attest-build-provenance@v2
